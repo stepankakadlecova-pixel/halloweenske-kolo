@@ -4,6 +4,20 @@ async function hash(value){return [...new Uint8Array(await crypto.subtle.digest(
 async function registered(request,env){const token=request.headers.get('Cookie')?.match(/(?:^|;\s*)hunt_session=([a-f0-9]{64})(?:;|$)/)?.[1];if(!token)return false;return !!await env.DB.prepare('SELECT id FROM participants WHERE session_hash = ? AND registered_at > ? LIMIT 1').bind(await hash(token),new Date(Date.now()-7*86400000).toISOString()).first()}
 export async function handle(request,env){const url=new URL(request.url);
 if(url.hostname==='pmd-halloweensky-lov-strasidel.stepanka-kadlecova.chatgpt.site'&&['GET','HEAD'].includes(request.method)&&!url.pathname.startsWith('/api/')){url.hostname='halloween.promaledobrodruhy.cz';url.protocol='https:';return new Response(null,{status:302,headers:{Location:url.href,'Cache-Control':'no-store'}})}
+if(url.pathname==='/api/stats'){
+ if(request.method!=='POST')return json({error:'Method'},405);
+ if(request.headers.get('Origin')!==url.origin)return json({error:'Origin'},403);
+ if(!request.headers.get('Content-Type')?.startsWith('application/json'))return json({error:'Format'},415);
+ if(Number(request.headers.get('Content-Length'))>100)return json({error:'Size'},413);
+ let payload;try{const body=await request.text();if(body.length>100)return json({error:'Size'},413);payload=JSON.parse(body)}catch{return json({error:'JSON'},400)}
+ if(!['game_start','attempt_complete','code_reveal'].includes(payload?.event)||Object.keys(payload).length!==1)return json({error:'Event'},400);
+ try{
+  const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Prague',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+  const part=type=>parts.find(p=>p.type===type).value;const day=part('year')+'-'+part('month')+'-'+part('day');
+  await env.DB.prepare('INSERT INTO daily_game_stats (day,event,count) VALUES (?,?,1) ON CONFLICT(day,event) DO UPDATE SET count = count + 1').bind(day,payload.event).run();
+ }catch{/* Counter failure must never affect gameplay. */}
+ return new Response(null,{status:204,headers:{'Cache-Control':'no-store'}});
+}
 if(url.pathname==='/api/session'){if(request.method!=='GET')return json({error:'Method'},405);return json({registered:await registered(request,env)})}
 if(url.pathname==='/api/register'){
  if(request.method!=='POST')return json({error:'Method'},405);
