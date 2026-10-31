@@ -1,28 +1,23 @@
-# Lov strašidel — tři pokusy a pět variant
+# Halloweenský lov strašidel
 
-Veřejná hra: https://pmd-halloweensky-lov-strasidel.stepanka-kadlecova.chatgpt.site
+20 sekund, 15 drobných strašidel, dvě obrazové vrstvy, pět variant a maximálně pět pokusů v prohlížeči. Každý další pokus nahrazuje předchozí výhru. Jediný přednastavený kód se ukáže po přijetí výhry. Bez dopravy zdarma a bez dárků.
 
-25 sekund po třísekundovém odpočítání. 15 menších maskovaných strašidel pro slevu a 2 ještě drobnější bonusoví duchové. Bonusy se do skóre pro slevu nezapočítávají: jeden přidá dopravu zdarma, druhý dárek. Hra končí po čase nebo po všech 17 úlovcích; nalezení 15 běžných strašidel samo lov neukončí.
+| Úlovky | Sleva | Kód | Minimum košíku |
+|---|---|---|---|
+| 0–2 | 5 % | HALLOWEEN5 | 800 Kč |
+| 3–5 | 100 Kč | HALLOWEEN100 | 1 000 Kč |
+| 6–8 | 10 % | HALLOWEEN10 | 1 000 Kč |
+| 9–11 | 200 Kč | HALLOWEEN200 | 1 500 Kč |
+| 12–15 | 15 % | HALLOWEEN15 | 1 500 Kč |
 
-## Tři pokusy a rozhodnutí o výhře
+Procentní slevy nejvýše 500 Kč, platnost do půlnoci 31. 10. 2026 v Praze. Kódy je nutné aktivovat v e-shopu. Vyšší úroveň nemusí být výhodnější pro každý košík.
 
-Hráč má nejvýše 3 pokusy po 25 sekundách. Pět autorských rozmístění a vzhledů duchů je při prvním Start náhodně promícháno a pořadí je uloženo. První tři varianty se nikdy neopakují; refresh je nezmění. Po prvním a druhém pokusu se zobrazí jen sleva a bonusy, nikdy kód. Hráč buď přijme výhru a ukončí hru, nebo ji zahodí a pokračuje. Další pokus maže předchozí skóre a bonusy, nejlepší výsledek se neuchovává. Po třetím pokusu se poslední výhra přijme automaticky. Kód i prohlídka úkrytů jsou dostupné pouze po konečném přijetí.
+## Registrace a export
 
-## Pevné kombinované kódy
+Worker ukládá do D1 DB / participants email, souhlas, jeho znění a verzi a čas. Session je hashovaná v DB; cookie HttpOnly/Secure/SameSite. Kontakty nemají veřejné API pro výpis. Vlastník je může číst/exportovat přes Sites Settings databázi nebo nástroje Sites. `email_verified=0`: email zatím neověřujeme, neprobíhá double opt-in ani odesílání newsletterů. Vymazání na žádost přes správu databáze. Před ostrou kampaní prověřit právní podmínky vázání hry na marketingový souhlas a pravidla uchování dat.
 
-Zákazník zadává jediný kód. Celkem 16 variant musí být před kampaní aktivováno a otestováno v e-shopu, včetně společného uplatnění slevy, dopravy a dárku.
+Limit pokusů je v localStorage, nikoli vynucený na email. Server registraci ukládá, ale neověřuje skóre ani identitu hráče. Nejde o ochranu proti podvodům.
 
-| Úlovky | Sleva | Bez bonusu | Doprava | Dárek | Oba bonusy |
-|---|---|---|---|---|---|
-| 0–4 | 5 % | HALLOWEEN5 | HALLOWEEN5-D | HALLOWEEN5-G | HALLOWEEN5-DG |
-| 5–8 | 10 % | HALLOWEEN10 | HALLOWEEN10-D | HALLOWEEN10-G | HALLOWEEN10-DG |
-| 9–12 | 15 % | HALLOWEEN15 | HALLOWEEN15-D | HALLOWEEN15-G | HALLOWEEN15-DG |
-| 13–15 | 20 % | HALLOWEEN20 | HALLOWEEN20-D | HALLOWEEN20-G | HALLOWEEN20-DG |
+## Vývoj
 
-Navržené podmínky: nákup od 800 Kč, maximální sleva 500 Kč, bez kombinace s jinými promo kódy, bonusy jsou součástí kombinovaného kódu. Platnost do půlnoci 31. října 2026 (Praha). Konkrétní dárek a jeho zásobu je třeba určit před kampaní.
-
-## Nastavení
-
-Délka hry, slevové stupně, kódy a bonusy: game-core.mjs. Pozice a maskování duchů: pět sad v layouts.mjs. Aktivní hra používá novou verzi místního úložiště v3.
-
-Jde o statický prototyp s výsledkem v localStorage. Obnovení zachová číslo pokusu, pořadí variant, čas, aktuální skóre i bonusy. Předchozí výsledky ani kódy se do historie neukládají. Pro skutečné omezení na příjemce emailu je potřeba backend a unikátní pozvánky; vymazání úložiště či jiné zařízení stávající limit obejde. Běží přes HTTP(S) kvůli ES modules.
+Zdroj rozhraní v této složce, server `worker/index.js`, migrace `drizzle/`. `node scripts/build.mjs` vloží statické soubory do ESM Workeru.  Žádná osobní data ani tajné tokeny do GitHubu.
