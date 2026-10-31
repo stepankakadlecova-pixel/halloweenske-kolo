@@ -1,6 +1,6 @@
 # Halloweenský lov strašidel
 
-20 sekund, 15 drobných strašidel, dvě obrazové vrstvy, pět variant a maximálně pět pokusů v prohlížeči. Každý další pokus nahrazuje předchozí výhru. Jediný přednastavený kód se ukáže po přijetí výhry. Bez dopravy zdarma a bez dárků.
+20 sekund, 15 drobných strašidel, dvě obrazové vrstvy, pět variant a maximálně tři pokusy v prohlížeči. Každý další pokus nahrazuje předchozí výhru. Jediný přednastavený kód se ukáže po přijetí výhry. Bez dopravy zdarma a bez dárků.
 
 | Úlovky | Sleva | Kód | Minimum košíku |
 |---|---|---|---|
@@ -20,4 +20,7 @@ Limit pokusů je v localStorage, nikoli vynucený na email. Server registraci uk
 
 ## Vývoj
 
-Zdroj rozhraní v této složce, server `worker/index.js`, migrace `drizzle/`. `node scripts/build.mjs` vloží statické soubory do ESM Workeru. `node scripts/test.mjs` ověří logiku a registrační API s testovací DB adaptérem. Žádná osobní data ani tajné tokeny do GitHubu.
+Zdroj rozhraní `public/`, server `worker/index.js`, migrace `drizzle/`. `node scripts/build.mjs` vloží statické soubory do ESM Workeru. `node scripts/test.mjs` ověří logiku a registrační API s testovací DB adaptérem. Žádná osobní data ani tajné tokeny do GitHubu.
+
+## Vstup z popupu
+Od této verze hra neobsahuje emailový formulář a nevolá registrační API ani kontrolu session. Email se zadává v popupu e-shopu. Úvod obsahuje pravidla a Start. Dříve uložené registrace zůstávají v DB; samotná hra nyní nové nesbírá.
