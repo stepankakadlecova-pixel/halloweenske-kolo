@@ -12,4 +12,4 @@ Platnost všech kódů do 31. 10. 2026, 23:59:59, čas v Praze. Sleva se vztahuj
 
 Kódy zatím nejsou vytvořené ani aktivované v administraci e-shopu. CSV je podklad pro nastavení, nikoli potvrzený importní formát platformy wpj.
 
-Limit použití kódu zákazníkem je potřeba rozhodnout a nastavit podle možností e-shopu. Hra jej nevynucuje; limit pěti pokusů platí pouze v prohlížeči. Procentní a korunové výhody nejsou při každé hodnotě košíku stejně výhodné.
+Limit použití kódu zákazníkem je potřeba rozhodnout a nastavit podle možností e-shopu. Hra jej nevynucuje; limit tří pokusů platí pouze v prohlížeči. Procentní a korunové výhody nejsou při každé hodnotě košíku stejně výhodné.
