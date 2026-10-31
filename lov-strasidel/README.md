@@ -4,11 +4,11 @@
 
 | Úlovky | Sleva | Kód | Minimum košíku |
 |---|---|---|---|
-| 0–2 | 5 % | HALLOWEEN5 | 800 Kč |
-| 3–5 | 100 Kč | HALLOWEEN100 | 1 000 Kč |
-| 6–8 | 10 % | HALLOWEEN10 | 1 000 Kč |
-| 9–11 | 200 Kč | HALLOWEEN200 | 1 500 Kč |
-| 12–15 | 15 % | HALLOWEEN15 | 1 500 Kč |
+| 0–2 | 5 % | BOJIMSE5 | 800 Kč |
+| 3–5 | 100 Kč | BUBAK100 | 1 000 Kč |
+| 6–8 | 10 % | STRASIDLO10 | 1 000 Kč |
+| 9–11 | 200 Kč | NETOPYR200 | 1 500 Kč |
+| 12–15 | 15 % | POSTRACH15 | 1 500 Kč |
 
 Procentní slevy nejvýše 500 Kč, platnost do půlnoci 31. 10. 2026 v Praze. Kódy je nutné aktivovat v e-shopu. Vyšší úroveň nemusí být výhodnější pro každý košík.
 
@@ -20,4 +20,4 @@ Limit pokusů je v localStorage, nikoli vynucený na email. Server registraci uk
 
 ## Vývoj
 
-Zdroj rozhraní v této složce, server `worker/index.js`, migrace `drizzle/`. `node scripts/build.mjs` vloží statické soubory do ESM Workeru.  Žádná osobní data ani tajné tokeny do GitHubu.
+Zdroj rozhraní v této složce, server `worker/index.js`, migrace `drizzle/`. `node scripts/build.mjs` vloží statické soubory do ESM Workeru. `node scripts/test.mjs` ověří logiku a registrační API s testovací DB adaptérem. Žádná osobní data ani tajné tokeny do GitHubu.
