@@ -3,6 +3,7 @@ const json=(value,status=200,extra={})=>new Response(JSON.stringify(value),{stat
 async function hash(value){return [...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(value)))].map(x=>x.toString(16).padStart(2,'0')).join('')}
 async function registered(request,env){const token=request.headers.get('Cookie')?.match(/(?:^|;\s*)hunt_session=([a-f0-9]{64})(?:;|$)/)?.[1];if(!token)return false;return !!await env.DB.prepare('SELECT id FROM participants WHERE session_hash = ? AND registered_at > ? LIMIT 1').bind(await hash(token),new Date(Date.now()-7*86400000).toISOString()).first()}
 export async function handle(request,env){const url=new URL(request.url);
+if(url.hostname==='pmd-halloweensky-lov-strasidel.stepanka-kadlecova.chatgpt.site'&&['GET','HEAD'].includes(request.method)&&!url.pathname.startsWith('/api/')){url.hostname='halloween.promaledobrodruhy.cz';url.protocol='https:';return new Response(null,{status:302,headers:{Location:url.href,'Cache-Control':'no-store'}})}
 if(url.pathname==='/api/session'){if(request.method!=='GET')return json({error:'Method'},405);return json({registered:await registered(request,env)})}
 if(url.pathname==='/api/register'){
  if(request.method!=='POST')return json({error:'Method'},405);
