@@ -20,7 +20,13 @@ Limit pokusů je v localStorage, nikoli vynucený na email. Server registraci uk
 
 ## Vývoj
 
-Zdroj rozhraní `public/`, server `worker/index.js`, migrace `drizzle/`. `node scripts/build.mjs` vloží statické soubory do ESM Workeru. `node scripts/test.mjs` ověří logiku a registrační API s testovací DB adaptérem. Žádná osobní data ani tajné tokeny do GitHubu.
+Zdroj rozhraní v této složce, server `worker/index.js`, migrace `drizzle/`. `node scripts/build.mjs` vloží statické soubory do ESM Workeru. `node scripts/test.mjs` ověří logiku a registrační API s testovací DB adaptérem. Žádná osobní data ani tajné tokeny do GitHubu.
 
 ## Vstup z popupu
 Od této verze hra neobsahuje emailový formulář a nevolá registrační API ani kontrolu session. Email se zadává v popupu e-shopu. Úvod obsahuje pravidla a Start. Dříve uložené registrace zůstávají v DB; samotná hra nyní nové nesbírá.
+
+## Souhrnné počítadlo (od nasazení této verze)
+
+Samostatný `public/stats.js` pozoruje obrazovky, neřídí hru. Posílá pouze typ události (`game_start`, `attempt_complete`, `code_reveal`) s `credentials: omit`; neposílá emaily, skóre, identifikátory her ani hráčů. Tabulka `daily_game_stats` obsahuje pouze den v Praze, událost a součet. Čtení je dostupné vlastníkovi přes nástroje / databázový prohlížeč Sites, nemá veřejný endpoint.
+
+Opakované zobrazení stejného výsledku se v témže prohlížeči potlačuje lokální značkou. Nejde o přesný počet osob; vymazání místních dat, jiný prohlížeč, blokování požadavků či výpadky ovlivní čísla. Staré otevřené výsledky se zpětně nedopočítávají. Aktuálně otevřené karty začnou měřit až po načtení nové verze. Chyba skriptu, úložiště či měřicího API neblokuje hru. Běžící aplikace ani limit tří pokusů se nemění. GA/GTM není tímto zapojené.
