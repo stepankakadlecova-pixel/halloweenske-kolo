@@ -21,6 +21,6 @@ if(url.pathname==='/api/register'){
 if(url.pathname.startsWith('/api/'))return json({error:'Not found'},404);
 if(!['GET','HEAD'].includes(request.method))return new Response('Method not allowed',{status:405});
 const item=ASSETS[url.pathname==='/'?'/index.html':url.pathname];if(!item)return new Response('Not found',{status:404});
-const bytes=Uint8Array.from(atob(item.body),c=>c.charCodeAt(0));return new Response(request.method==='HEAD'?null:bytes,{headers:{'Content-Type':item.type,'Cache-Control':url.pathname.startsWith('/assets/')?'public,max-age=3600':'no-cache','X-Content-Type-Options':'nosniff','Referrer-Policy':'strict-origin-when-cross-origin'}})
+const bytes=Uint8Array.from(atob(item.body),c=>c.charCodeAt(0));return new Response(request.method==='HEAD'?null:bytes,{headers:{'Content-Type':item.type,'Cache-Control':url.pathname.startsWith('/assets/')?'public,max-age=31536000,immutable':'no-cache','X-Content-Type-Options':'nosniff','Referrer-Policy':'strict-origin-when-cross-origin'}})
 }
 export default {async fetch(request,env){try{return await handle(request,env)}catch{return json({error:'Uložení se nepodařilo. Zkus to prosím znovu.'},503)}}};
