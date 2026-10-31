@@ -1,1 +1,1 @@
-{"version":"7","dialect":"sqlite","entries":[{"idx":0,"version":"6","when":1793437200000,"tag":"0000_participants","breakpoints":true}]}
+{"version": "7", "dialect": "sqlite", "entries": [{"idx": 0, "version": "6", "when": 1793437200000, "tag": "0000_participants", "breakpoints": true}, {"idx": 1, "version": "6", "when": 1793475449218, "tag": "0001_daily_game_stats", "breakpoints": true}]}
